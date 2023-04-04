@@ -5,6 +5,7 @@ from app.resources.auth import AuthLogin, AuthRegister, AuthLogout
 from app.resources.guild import GuildsByUser, GuildById, Guilds
 from app.resources.channel import ChannelsByGuild, ChannelById
 from app.resources.messages import MessagesByChannel
+from app.resources.user import UserById
 
 
 def create_app(config_class=Config):
@@ -29,6 +30,9 @@ def create_app(config_class=Config):
 
     # routes for messages
     api.add_resource(MessagesByChannel, base_url + "channels/<int:channel_id>/messages")
+
+    # routes for users
+    api.add_resource(UserById, base_url + "users/<int:user_id>")
 
     # Initialize flask extensions here
     db.init_app(app)

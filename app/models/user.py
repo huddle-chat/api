@@ -19,10 +19,7 @@ class User(db.Model):
         nullable=False
         )
     password = db.Column(db.String, nullable=False)
-    online_status = db.Column(
-        db.Integer,
-        server_default=db.text("1")
-        )
+    online_status = db.Column(db.Integer, server_default=db.text("1"))
     created_at = db.Column(
         db.DateTime,
         nullable=False,

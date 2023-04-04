@@ -10,12 +10,12 @@ class GuildMember(db.Model):
         )
     user_id = db.Column(
           db.BigInteger,
-          db.ForeignKey('user.user_id'),
+          db.ForeignKey('user.user_id', ondelete="CASCADE"),
           nullable=False
         )
     guild_id = db.Column(
           db.BigInteger,
-          db.ForeignKey('guild.guild_id'),
+          db.ForeignKey('guild.guild_id', ondelete="CASCADE"),
           nullable=False
         )
     joined_at = db.Column(db.DateTime, server_default=db.func.now())

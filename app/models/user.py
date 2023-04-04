@@ -21,12 +21,17 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
     online_status = db.Column(db.Integer, server_default=db.text("1"))
     created_at = db.Column(
-        db.DateTime,
-        nullable=False,
-        server_default=db.func.now()
+            db.DateTime,
+            nullable=False,
+            server_default=db.func.now()
         )
     avatar = db.Column(db.String, server_default="None")
-    guilds = db.relationship("GuildMember", back_populates="member")
+    guilds = db.relationship(
+            "GuildMember",
+            back_populates="member",
+            cascade="all, delete",
+            passive_deletes=True
+        )
 
     def __repr__(self):
         return f"<User id={self.user_id} username={self.username}>"

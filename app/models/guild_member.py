@@ -22,3 +22,6 @@ class GuildMember(db.Model):
     is_owner = db.Column(db.Boolean, server_default=db.text("false"))
     guild = db.relationship("Guild", back_populates="members")
     member = db.relationship("User", back_populates="guilds")
+
+    def __repr__(self):
+        return f"<GuildMember guild_id={self.guild_id}, user_id={self.user_id}"

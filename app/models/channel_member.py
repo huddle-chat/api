@@ -13,5 +13,9 @@ class ChannelMember(db.Model):
           primary_key=True
         )
     channel = db.relationship("Channel", back_populates="members")
-    member = db.relationship("User", back_populates="guilds")
+    member = db.relationship("User", back_populates="channels")
     # last seen message id
+
+    def __repr__(self) -> str:
+        return f"""<ChannelMember channel_id={self.channel_id},
+    member_id={self.member_id} >"""

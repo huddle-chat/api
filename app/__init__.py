@@ -6,6 +6,12 @@ from app.resources.guild import GuildsByUser, GuildById, Guilds
 from app.resources.channel import ChannelsByGuild, ChannelById
 from app.resources.messages import MessagesByChannel
 from app.resources.user import UserById
+from app.models.channel import Channel
+from app.models.channel_member import ChannelMember
+from app.models.guild import Guild
+from app.models.guild_member import GuildMember
+from app.models.user import User
+from app.models.message import Message
 
 
 def create_app(config_class=Config):

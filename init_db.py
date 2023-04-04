@@ -1,7 +1,8 @@
+from app.__init__ import create_app
 from app.extensions import db
-from app.models.guild import Guild
-from app.models.user import User
 
+app = create_app()
 
-db.drop_all()
-db.create_all()
+with app.app_context():
+    db.drop_all()
+    db.create_all()

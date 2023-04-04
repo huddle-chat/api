@@ -25,4 +25,12 @@ class Channel(db.Model):
           cascade="all, delete",
           passive_deletes=True
         )
+    messages = db.relationship(
+        "Message",
+        cascade="all, delete",
+        passive_deletes=True
+    )
     # last message ID
+
+    def __repr__(self):
+        return f"<Channel id={self.channel_id}>"

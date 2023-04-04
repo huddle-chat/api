@@ -6,7 +6,7 @@ class User(db.Model):
     user_id = db.Column(
         db.BigInteger,
         primary_key=True,
-        server_default=db.text(str(next(sf)))
+        default=lambda: int(next(sf))
         )
     username = db.Column(
         db.String,

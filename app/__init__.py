@@ -19,17 +19,23 @@ def create_app(config_class=Config):
     api.add_resource(AuthRegister, base_url + "auth/register")
     api.add_resource(AuthLogout, base_url + "auth/logout")
 
-    #routes for guilds
+    # routes for guilds
     api.add_resource(GuildsByUser, base_url + "user/<int:user_id>/guilds")
     api.add_resource(GuildById, base_url + "guilds/<int:guild_id>")
     api.add_resource(Guilds, base_url + "guilds")
 
     # routes for channels
-    api.add_resource(ChannelsByGuild, base_url + "guilds/<int:guild_id>/channels")
+    api.add_resource(
+            ChannelsByGuild,
+            base_url + "guilds/<int:guild_id>/channels"
+        )
     api.add_resource(ChannelById, base_url + "channels/<int:channel_id>")
 
     # routes for messages
-    api.add_resource(MessagesByChannel, base_url + "channels/<int:channel_id>/messages")
+    api.add_resource(
+            MessagesByChannel,
+            base_url + "channels/<int:channel_id>/messages"
+        )
 
     # routes for users
     api.add_resource(UserById, base_url + "users/<int:user_id>")

@@ -32,6 +32,12 @@ class User(db.Model):
             cascade="all, delete",
             passive_deletes=True
         )
+    channels = db.relationship(
+            "ChannelMember",
+            back_populates="member",
+            cascade="all, delete",
+            passive_deletes=True
+        )
 
     def __repr__(self):
         return f"<User id={self.user_id} username={self.username}>"

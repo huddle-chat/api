@@ -19,4 +19,10 @@ class Channel(db.Model):
           db.ForeignKey("guild.guild_id", ondelete="CASCADE"),
           nullable=True
         )
+    members = db.relationship(
+          "ChannelMember",
+          back_populates="channel",
+          cascade="all, delete",
+          passive_deletes=True
+        )
     # last message ID

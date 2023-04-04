@@ -12,6 +12,7 @@ class Guild(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     icon = db.Column(db.String, server_default="None")
     description = db.Column(db.String)
+    members = db.relationship("GuildMember", back_populates="guild")
 
     def __repr__(self):
         return f"<Guild id={self.guild_id}, name={self.name}>"

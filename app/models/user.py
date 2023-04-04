@@ -26,6 +26,7 @@ class User(db.Model):
         server_default=db.func.now()
         )
     avatar = db.Column(db.String, server_default="None")
+    guilds = db.relationship("GuildMember", back_populates="member")
 
     def __repr__(self):
         return f"<User id={self.user_id} username={self.username}>"

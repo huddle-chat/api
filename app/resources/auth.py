@@ -1,11 +1,11 @@
 from flask_restful import Resource
-from app.common.seed import seed_db
+from app.queries.user import create_user
 
 
 class AuthRegister(Resource):
     def post(self):
-        seed_db()
-        return {'message': 'success'}
+        result = create_user("matt-2", "test@mail.com", "something")
+        return {'message': 'success', 'channels': result}
 
 
 class AuthLogin(Resource):

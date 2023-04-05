@@ -10,12 +10,16 @@ class Message(db.Model):
     )
     channel_id = db.Column(
         db.BigInteger,
-        db.ForeignKey("channel.channel_id"),
+        db.ForeignKey(
+                "channel.channel_id",
+                ondelete="CASCADE",
+                name="fk_channel"
+            ),
         nullable=False
     )
     author_id = db.Column(
         db.BigInteger,
-        db.ForeignKey("user.user_id"),
+        db.ForeignKey("user.user_id", ondelete="CASCADE"),
         nullable=False
     )
     content = db.Column(

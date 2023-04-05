@@ -8,7 +8,7 @@ class GuildMember(db.Model):
           primary_key=True,
           default=lambda: int(next(sf))
         )
-    user_id = db.Column(
+    member_id = db.Column(
           db.BigInteger,
           db.ForeignKey('user.user_id', ondelete="CASCADE"),
           nullable=False

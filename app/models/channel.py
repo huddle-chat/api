@@ -12,8 +12,8 @@ class Channel(db.Model):
     name = db.Column(db.String)
     date_created = db.Column(db.DateTime, server_default=db.func.now())
     position = db.Column(db.Integer)
-    everyone_can_view = db.Column(db.Boolean, server_default=db.text('false'))
-    everyone_can_chat = db.Column(db.Boolean, server_default=db.text('false'))
+    everyone_can_view = db.Column(db.Boolean, server_default=db.text('true'))
+    everyone_can_chat = db.Column(db.Boolean, server_default=db.text('true'))
     guild_id = db.Column(
           db.BigInteger,
           db.ForeignKey("guild.guild_id", ondelete="CASCADE"),
@@ -28,9 +28,19 @@ class Channel(db.Model):
     messages = db.relationship(
         "Message",
         cascade="all, delete",
-        passive_deletes=True
+        passive_deletes=True,
+        foreign_keys="[Message.channel_id]",
+        post_update=True
     )
-    # last message ID
+    last_message_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "message.message_id",
+            ondelete="CASCADE",
+            name="fk_last_message"
+        ),
+        nullable=True
+    )
 
     def __repr__(self):
         return f"<Channel id={self.channel_id}>"

@@ -14,7 +14,11 @@ class ChannelMember(db.Model):
         )
     channel = db.relationship("Channel", back_populates="members")
     member = db.relationship("User", back_populates="channels")
-    # last seen message id
+    last_seen_message_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey("message.message_id", ondelete="CASCADE"),
+        nullable=True
+    )
 
     def __repr__(self) -> str:
         return f"""<ChannelMember channel_id={self.channel_id},

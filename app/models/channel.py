@@ -41,6 +41,11 @@ class Channel(db.Model):
         ),
         nullable=True
     )
+    allowed_roles = db.relationship(
+                "ChannelAllowedRoles",
+                cascade="all, delete",
+                passive_deletes=True
+            )
 
     def __repr__(self):
         return f"<Channel id={self.channel_id}>"

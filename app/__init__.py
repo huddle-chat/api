@@ -12,6 +12,9 @@ from app.models.guild import Guild
 from app.models.guild_member import GuildMember
 from app.models.user import User
 from app.models.message import Message
+from app.models.channel_allowed_roles import ChannelAllowedRoles
+from app.models.role import Role
+from app.models.guild_member_role import GuildMemberRole
 
 
 def create_app(config_class=Config):

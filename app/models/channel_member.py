@@ -2,6 +2,9 @@ from app.extensions import db
 
 
 class ChannelMember(db.Model):
+    __table_args__ = (
+        db.UniqueConstraint('channel_id', 'member_id'),
+      )
     channel_id = db.Column(
           db.BigInteger,
           db.ForeignKey("channel.channel_id", ondelete="CASCADE"),

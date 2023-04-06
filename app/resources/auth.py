@@ -1,8 +1,11 @@
 from flask_restful import Resource, reqparse
+from flask import make_response
 from app.rpc.users_rpc import register_user, get_user_for_login
 from grpc import RpcError
 import grpc
 import bcrypt
+from flask_jwt_extended import create_access_token,\
+    set_access_cookies, unset_access_cookies, jwt_required
 
 auth_register_post_args = reqparse.RequestParser()
 auth_register_post_args.add_argument(
@@ -76,13 +79,17 @@ class AuthLogin(Resource):
 
             if valid_password:
                 del user['password']
-                return {
+                print(user)
+                access_token = create_access_token(identity=user['userId'])
+                resp = make_response({
                     'success': True,
                     'message': "Welcome back!",
                     'data': {
-                        'user': user
+                        'user': user,
                     }
-                }
+                })
+                set_access_cookies(resp, access_token)
+                return resp
             else:
                 return {
                     'success': False,
@@ -102,6 +109,17 @@ class AuthLogin(Resource):
                 'data': None
             }, code
 
+
 class AuthLogout(Resource):
+    def get(self):
+        resp = make_response({
+            'success': True,
+            'message': "Successfully logged out!",
+            "data": None
+        })
+        unset_access_cookies(resp)
+        return resp
+
+    @jwt_required()
     def post(self):
-        return {"message": "This is the logout route"}
+        return {"message": "protected route"}

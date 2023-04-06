@@ -1,6 +1,6 @@
 from flask import Flask
 from config import Config
-from app.extensions import api
+from app.extensions import api, jwt
 from app.resources.auth import AuthLogin, AuthRegister, AuthLogout
 from app.resources.guild import GuildsByUser, GuildById, Guilds
 from app.resources.channel import ChannelsByGuild, ChannelById
@@ -42,5 +42,6 @@ def create_app(config_class=Config):
 
     # Initialize flask extensions here
     api.init_app(app)
+    jwt.init_app(app)
 
     return app

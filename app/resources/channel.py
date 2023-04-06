@@ -1,13 +1,12 @@
 from flask_restful import Resource
-from app.common.email import send_test_email
 
 
 class ChannelById(Resource):
     def get(self, channel_id):
         try:
-            send_test_email()
             return {"message": "Success!"}
         except Exception as e:
+            print(e)
             return {"message": "it errored out"}
 
     def delete(self, channel_id):

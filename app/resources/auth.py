@@ -32,13 +32,16 @@ class AuthRegister(Resource):
     def post(self):
         args = auth_register_post_args.parse_args()
         try:
-            email, verification_code = register_user(args['username'], args['password'], args['email'])
+            email, verification_code = register_user(
+                args['username'], args['password'], args['email']
+            )
 
             send_verification_email(email, verification_code)
 
             return {
                 'success': True,
-                'message': "Thanks for signing up! We've sent a verification code to your email.",
+                'message': """Thanks for signing up! We've sent a
+                    verification code to your email.""",
                 'data': None
             }
         except RpcError as e:
@@ -82,7 +85,8 @@ class AuthLogin(Resource):
 
             if valid_password:
                 del user['password']
-                print(user)
+                if "isVerified" not in user:
+                    user["isVerified"] = False
                 access_token = create_access_token(identity=user['userId'])
                 resp = make_response({
                     'success': True,

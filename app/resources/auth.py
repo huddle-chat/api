@@ -1,11 +1,9 @@
 from flask_restful import Resource
-from app.queries.user import create_user
 
 
 class AuthRegister(Resource):
     def post(self):
-        result = create_user("matt-2", "test@mail.com", "something")
-        return {'message': 'success', 'channels': result}
+        return {'message': 'This is the register route'}
 
 
 class AuthLogin(Resource):

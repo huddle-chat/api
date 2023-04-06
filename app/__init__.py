@@ -1,20 +1,11 @@
 from flask import Flask
 from config import Config
-from app.extensions import db, api
+from app.extensions import api
 from app.resources.auth import AuthLogin, AuthRegister, AuthLogout
 from app.resources.guild import GuildsByUser, GuildById, Guilds
 from app.resources.channel import ChannelsByGuild, ChannelById
 from app.resources.messages import MessagesByChannel
 from app.resources.user import UserById
-from app.models.channel import Channel
-from app.models.channel_member import ChannelMember
-from app.models.guild import Guild
-from app.models.guild_member import GuildMember
-from app.models.user import User
-from app.models.message import Message
-from app.models.channel_allowed_roles import ChannelAllowedRoles
-from app.models.role import Role
-from app.models.guild_member_role import GuildMemberRole
 
 
 def create_app(config_class=Config):
@@ -50,7 +41,6 @@ def create_app(config_class=Config):
     api.add_resource(UserById, base_url + "users/<int:user_id>")
 
     # Initialize flask extensions here
-    db.init_app(app)
     api.init_app(app)
 
     return app

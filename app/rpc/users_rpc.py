@@ -15,8 +15,9 @@ def register_user(username: str, password: str, email: str):
 
         response_dict = MessageToDict(response)
 
-        print(response_dict)
-    return response
+        verification_code = response_dict['verificationCode']
+
+    return email, verification_code
 
 
 def get_user_for_login(email: str):

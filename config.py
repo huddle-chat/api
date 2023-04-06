@@ -13,3 +13,8 @@ class Config:
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET")
     JWT_CSRF_CHECK_FORM = True
     JWT_CSRF_IN_COOKIES = True
+    MAIL_SERVER = "smtp.gmail.com"
+    MAIL_PORT = 465
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
+    MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")

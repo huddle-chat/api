@@ -6,6 +6,7 @@ import grpc
 import bcrypt
 from flask_jwt_extended import create_access_token,\
     set_access_cookies, unset_access_cookies, jwt_required
+from app.common.email import send_verification_email
 
 auth_register_post_args = reqparse.RequestParser()
 auth_register_post_args.add_argument(
@@ -30,12 +31,14 @@ auth_register_post_args.add_argument(
 class AuthRegister(Resource):
     def post(self):
         args = auth_register_post_args.parse_args()
-        print(args)
         try:
-            register_user(args['username'], args['password'],args['email'])
+            email, verification_code = register_user(args['username'], args['password'], args['email'])
+
+            send_verification_email(email, verification_code)
+
             return {
                 'success': True,
-                'message': "Thanks for signing up!",
+                'message': "Thanks for signing up! We've sent a verification code to your email.",
                 'data': None
             }
         except RpcError as e:

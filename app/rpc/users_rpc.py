@@ -28,7 +28,7 @@ def get_user_for_login(email: str):
         )
         response = stub.GetUserForLogin(request)
         response_dict = MessageToDict(response)
-        print(response_dict)
+
     return response_dict['user']
 
 
@@ -38,7 +38,7 @@ def get_user_verification_code(email: str):
         request = users_pb2.VerificationRequest(email=email)
         response = stub.GetUserVerification(request)
         response_dict = MessageToDict(response)
-        print(response_dict)
+
         return response_dict
 
 
@@ -48,5 +48,5 @@ def verify_user(email: str):
         request = users_pb2.VerificationRequest(email=email)
         response = stub.VerifyUser(request)
         response_dict = MessageToDict(response)
-        print(response_dict)
+
         return response_dict

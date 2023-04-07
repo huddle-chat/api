@@ -6,7 +6,7 @@ class ChannelById(Resource):
         try:
             return {"message": "Success!"}
         except Exception as e:
-            print(e)
+
             return {"message": "it errored out"}
 
     def delete(self, channel_id):

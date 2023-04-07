@@ -30,3 +30,23 @@ def get_user_for_login(email: str):
         response_dict = MessageToDict(response)
         print(response_dict)
     return response_dict['user']
+
+
+def get_user_verification_code(email: str):
+    with grpc.insecure_channel("localhost:50051") as channel:
+        stub = users_pb2_grpc.UserServiceStub(channel)
+        request = users_pb2.VerificationRequest(email=email)
+        response = stub.GetUserVerification(request)
+        response_dict = MessageToDict(response)
+        print(response_dict)
+        return response_dict
+
+
+def verify_user(email: str):
+    with grpc.insecure_channel("localhost:50051") as channel:
+        stub = users_pb2_grpc.UserServiceStub(channel)
+        request = users_pb2.VerificationRequest(email=email)
+        response = stub.VerifyUser(request)
+        response_dict = MessageToDict(response)
+        print(response_dict)
+        return response_dict

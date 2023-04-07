@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask import make_response
-from app.rpc.users_rpc import register_user, get_user_for_login
+from app.rpc.users_rpc import register_user, get_user_for_login,\
+    get_user_verification_code, verify_user
 from grpc import RpcError
 import grpc
 import bcrypt
@@ -50,6 +51,67 @@ class AuthRegister(Resource):
             if e.code() == grpc.StatusCode.ALREADY_EXISTS:
                 message = e.details()
                 code = 409
+            return {
+                'success': False,
+                'message': message,
+                'data': None
+            }, code
+
+
+auth_verify_post_args = reqparse.RequestParser()
+auth_verify_post_args.add_argument(
+    "email",
+    type=str,
+    help="Please provide a valid email address.",
+    required=True
+)
+auth_verify_post_args.add_argument(
+    "verificationCode",
+    type=int,
+    help="Pleas provide the verification code sent to your email.",
+    required=True
+)
+
+
+class AuthVerify(Resource):
+    def post(self):
+        args = auth_verify_post_args.parse_args()
+        try:
+            res = get_user_verification_code(args['email'])
+            if "isVerified" in res and res["isVerified"] is True:
+                return {
+                    "success": False,
+                    "message": "User is already verified.",
+                    "data": None
+                }
+            else:
+                valid = res["verificationCode"] == args["verificationCode"]
+                if valid is True:
+                    user = verify_user(args["email"])
+                    if "isVerified" in user and user["isVerified"] is True:
+                        return {
+                            "success": True,
+                            "message": "Thank you for verifying your email!",
+                            "data": None
+                        }
+                    else:
+                        return {
+                        "success": False,
+                        "message": "Something went wrong. Please try again later.",
+                        "data": None
+                    }
+                else:
+                    return {
+                        "success": False,
+                        "message": "Incorrect verification code.",
+                        "data": None
+                    }
+        except RpcError as e:
+            code = 500
+            message = "Something went wrong."
+            if e.code() == grpc.StatusCode.NOT_FOUND:
+                code = 404
+                message = e.details()
             return {
                 'success': False,
                 'message': message,

@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x15\x61pp/proto/users.proto\x12\x0bhuddle_chat\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbe\x01\n\x0cUserForLogin\x12\x0f\n\x07user_id\x18\x01 \x01(\x03\x12\x10\n\x08username\x18\x02 \x01(\t\x12\r\n\x05\x65mail\x18\x03 \x01(\t\x12\x0e\n\x06\x61vatar\x18\x04 \x01(\t\x12\x15\n\ronline_status\x18\x05 \x01(\x05\x12.\n\ncreated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x10\n\x08password\x18\x07 \x01(\t\x12\x13\n\x0bis_verified\x18\x08 \x01(\x08\"\x1d\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\"8\n\rLoginResponse\x12\'\n\x04user\x18\x01 \x01(\x0b\x32\x19.huddle_chat.UserForLogin\"D\n\x0fRegisterRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\r\n\x05\x65mail\x18\x03 \x01(\t\"O\n\x10RegisterResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x19\n\x11verification_code\x18\x03 \x01(\x05\x32\xa8\x01\n\x0bUserService\x12J\n\x0fGetUserForLogin\x12\x19.huddle_chat.LoginRequest\x1a\x1a.huddle_chat.LoginResponse\"\x00\x12M\n\x0cRegisterUser\x12\x1c.huddle_chat.RegisterRequest\x1a\x1d.huddle_chat.RegisterResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x15\x61pp/proto/users.proto\x12\x0bhuddle_chat\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbe\x01\n\x0cUserForLogin\x12\x0f\n\x07user_id\x18\x01 \x01(\x03\x12\x10\n\x08username\x18\x02 \x01(\t\x12\r\n\x05\x65mail\x18\x03 \x01(\t\x12\x0e\n\x06\x61vatar\x18\x04 \x01(\t\x12\x15\n\ronline_status\x18\x05 \x01(\x05\x12.\n\ncreated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x10\n\x08password\x18\x07 \x01(\t\x12\x13\n\x0bis_verified\x18\x08 \x01(\x08\"U\n\x14VerificationResponse\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x19\n\x11verification_code\x18\x02 \x01(\x05\x12\x13\n\x0bis_verified\x18\x03 \x01(\x08\"$\n\x13VerificationRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\"\x1d\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\"8\n\rLoginResponse\x12\'\n\x04user\x18\x01 \x01(\x0b\x32\x19.huddle_chat.UserForLogin\"D\n\x0fRegisterRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\r\n\x05\x65mail\x18\x03 \x01(\t\"O\n\x10RegisterResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x19\n\x11verification_code\x18\x03 \x01(\x05\x32\xdb\x02\n\x0bUserService\x12J\n\x0fGetUserForLogin\x12\x19.huddle_chat.LoginRequest\x1a\x1a.huddle_chat.LoginResponse\"\x00\x12M\n\x0cRegisterUser\x12\x1c.huddle_chat.RegisterRequest\x1a\x1d.huddle_chat.RegisterResponse\"\x00\x12\\\n\x13GetUserVerification\x12 .huddle_chat.VerificationRequest\x1a!.huddle_chat.VerificationResponse\"\x00\x12S\n\nVerifyUser\x12 .huddle_chat.VerificationRequest\x1a!.huddle_chat.VerificationResponse\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'app.proto.users_pb2', globals())
@@ -23,14 +23,18 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   _USERFORLOGIN._serialized_start=72
   _USERFORLOGIN._serialized_end=262
-  _LOGINREQUEST._serialized_start=264
-  _LOGINREQUEST._serialized_end=293
-  _LOGINRESPONSE._serialized_start=295
-  _LOGINRESPONSE._serialized_end=351
-  _REGISTERREQUEST._serialized_start=353
-  _REGISTERREQUEST._serialized_end=421
-  _REGISTERRESPONSE._serialized_start=423
-  _REGISTERRESPONSE._serialized_end=502
-  _USERSERVICE._serialized_start=505
-  _USERSERVICE._serialized_end=673
+  _VERIFICATIONRESPONSE._serialized_start=264
+  _VERIFICATIONRESPONSE._serialized_end=349
+  _VERIFICATIONREQUEST._serialized_start=351
+  _VERIFICATIONREQUEST._serialized_end=387
+  _LOGINREQUEST._serialized_start=389
+  _LOGINREQUEST._serialized_end=418
+  _LOGINRESPONSE._serialized_start=420
+  _LOGINRESPONSE._serialized_end=476
+  _REGISTERREQUEST._serialized_start=478
+  _REGISTERREQUEST._serialized_end=546
+  _REGISTERRESPONSE._serialized_start=548
+  _REGISTERRESPONSE._serialized_end=627
+  _USERSERVICE._serialized_start=630
+  _USERSERVICE._serialized_end=977
 # @@protoc_insertion_point(module_scope)

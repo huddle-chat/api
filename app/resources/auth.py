@@ -169,6 +169,7 @@ class AuthLogin(Resource):
                 }
 
         except RpcError as e:
+            print(e)
             code = 500
             message = "Something went wrong."
             if e.code() == grpc.StatusCode.NOT_FOUND:

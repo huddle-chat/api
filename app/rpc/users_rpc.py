@@ -4,8 +4,9 @@ from google.protobuf.json_format import MessageToDict
 import os
 
 grpc_env = os.getenv("GRPC_URI")
-base_url = grpc_env if grpc_env is not None else "localhost:50051"
+base_url = grpc_env if grpc_env is not None else "127.0.0.1:50051"
 
+print(base_url)
 
 def register_user(username: str, password: str, email: str):
     with grpc.insecure_channel(base_url) as channel:

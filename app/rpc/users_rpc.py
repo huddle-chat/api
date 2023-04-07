@@ -1,7 +1,10 @@
 import grpc
 from app.proto import users_pb2, users_pb2_grpc
 from google.protobuf.json_format import MessageToDict
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 grpc_env = os.getenv("GRPC_URI")
 base_url = grpc_env if grpc_env is not None else "127.0.0.1:50051"

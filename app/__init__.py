@@ -1,8 +1,8 @@
 from flask import Flask
 from config import Config
 from app.extensions import api, jwt, mail
-from app.resources.auth import AuthLogin, AuthRegister, AuthLogout, AuthVerify,\
-    AuthMe
+from app.resources.auth import AuthLogin, AuthRegister, AuthLogout,\
+    AuthVerify, AuthMe
 from app.resources.guild import GuildsByUser, GuildById, Guilds
 from app.resources.channel import ChannelsByGuild, ChannelById
 from app.resources.messages import MessagesByChannel

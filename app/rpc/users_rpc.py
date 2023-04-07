@@ -1,10 +1,14 @@
 import grpc
 from app.proto import users_pb2, users_pb2_grpc
 from google.protobuf.json_format import MessageToDict
+import os
+
+grpc_env = os.getenv("GRPC_URI")
+base_url = grpc_env if grpc_env is not None else "localhost:50051"
 
 
 def register_user(username: str, password: str, email: str):
-    with grpc.insecure_channel("localhost:50051") as channel:
+    with grpc.insecure_channel(base_url) as channel:
         stub = users_pb2_grpc.UserServiceStub(channel)
         request = users_pb2.RegisterRequest(
             username=username,
@@ -21,7 +25,7 @@ def register_user(username: str, password: str, email: str):
 
 
 def get_user_for_login(email: str):
-    with grpc.insecure_channel("localhost:50051") as channel:
+    with grpc.insecure_channel(base_url) as channel:
         stub = users_pb2_grpc.UserServiceStub(channel)
         request = users_pb2.LoginRequest(
             email=email
@@ -33,7 +37,7 @@ def get_user_for_login(email: str):
 
 
 def get_user_verification_code(email: str):
-    with grpc.insecure_channel("localhost:50051") as channel:
+    with grpc.insecure_channel(base_url) as channel:
         stub = users_pb2_grpc.UserServiceStub(channel)
         request = users_pb2.VerificationRequest(email=email)
         response = stub.GetUserVerification(request)
@@ -43,7 +47,7 @@ def get_user_verification_code(email: str):
 
 
 def verify_user(email: str):
-    with grpc.insecure_channel("localhost:50051") as channel:
+    with grpc.insecure_channel(base_url) as channel:
         stub = users_pb2_grpc.UserServiceStub(channel)
         request = users_pb2.VerificationRequest(email=email)
         response = stub.VerifyUser(request)
@@ -53,7 +57,7 @@ def verify_user(email: str):
 
 
 def get_current_user_by_id(user_id: int):
-    with grpc.insecure_channel("localhost:50051") as channel:
+    with grpc.insecure_channel(base_url) as channel:
         stub = users_pb2_grpc.UserServiceStub(channel)
         request = users_pb2.CurrentUserByIdRequest(user_id=user_id)
         response = stub.GetCurrentUserById(request)

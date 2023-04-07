@@ -97,10 +97,11 @@ class AuthVerify(Resource):
                         }
                     else:
                         return {
-                        "success": False,
-                        "message": "Something went wrong. Please try again later.",
-                        "data": None
-                    }
+                            "success": False,
+                            "message": "Something went wrong.\
+                                Please try again later.",
+                            "data": None
+                        }
                 else:
                     return {
                         "success": False,

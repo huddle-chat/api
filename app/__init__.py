@@ -1,7 +1,8 @@
 from flask import Flask
 from config import Config
 from app.extensions import api, jwt, mail
-from app.resources.auth import AuthLogin, AuthRegister, AuthLogout, AuthVerify
+from app.resources.auth import AuthLogin, AuthRegister, AuthLogout, AuthVerify,\
+    AuthMe
 from app.resources.guild import GuildsByUser, GuildById, Guilds
 from app.resources.channel import ChannelsByGuild, ChannelById
 from app.resources.messages import MessagesByChannel
@@ -19,6 +20,7 @@ def create_app(config_class=Config):
     api.add_resource(AuthRegister, base_url + "auth/register")
     api.add_resource(AuthLogout, base_url + "auth/logout")
     api.add_resource(AuthVerify, base_url + "auth/verify")
+    api.add_resource(AuthMe, base_url + "auth/me")
 
     # routes for guilds
     api.add_resource(GuildsByUser, base_url + "user/<int:user_id>/guilds")

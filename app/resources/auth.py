@@ -1,12 +1,13 @@
 from flask_restful import Resource, reqparse
 from flask import make_response
 from app.rpc.users_rpc import register_user, get_user_for_login,\
-    get_user_verification_code, verify_user
+    get_user_verification_code, verify_user, get_current_user_by_id
 from grpc import RpcError
 import grpc
 import bcrypt
 from flask_jwt_extended import create_access_token,\
-    set_access_cookies, unset_access_cookies, jwt_required
+    set_access_cookies, unset_access_cookies, jwt_required,\
+    get_jwt_identity
 from app.common.email import send_verification_email
 
 auth_register_post_args = reqparse.RequestParser()
@@ -189,6 +190,44 @@ class AuthLogout(Resource):
         unset_access_cookies(resp)
         return resp
 
+
+class AuthMe(Resource):
     @jwt_required()
-    def post(self):
-        return {"message": "protected route"}
+    def get(self):
+        try:
+            current_user_id = get_jwt_identity()
+            current_user = get_current_user_by_id(int(current_user_id))
+
+            del current_user['password']
+
+            return {
+                "success": True,
+                "message": "Welcome back!",
+                "data": {
+                    "user": current_user
+                }
+            }
+        except RpcError as e:
+            code = 500
+            message = "Something went wrong."
+            if e.code() == grpc.StatusCode.NOT_FOUND:
+                code = 404
+                message = e.details()
+            resp = make_response({
+                    'success': False,
+                    'message': message,
+                    "data": None
+                })
+            # Clear the malformed token, prompt user for login again
+            unset_access_cookies(resp)
+            return resp, code
+        # Some error that wasn't thrown by rpc
+        except Exception as e:
+            print("error here", e)
+            message = "Something went wrong"
+            code = 500
+            return {
+                "success": False,
+                "message": message,
+                "data": None
+            }, code

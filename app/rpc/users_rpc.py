@@ -50,3 +50,14 @@ def verify_user(email: str):
         response_dict = MessageToDict(response)
 
         return response_dict
+
+
+def get_current_user_by_id(user_id: int):
+    with grpc.insecure_channel("localhost:50051") as channel:
+        stub = users_pb2_grpc.UserServiceStub(channel)
+        request = users_pb2.CurrentUserByIdRequest(user_id=user_id)
+        response = stub.GetCurrentUserById(request)
+
+        response_dict = MessageToDict(response)
+
+        return response_dict['user']

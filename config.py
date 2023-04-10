@@ -20,4 +20,4 @@ class Config:
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     JWT_ALGORITHM = "HS256"
-    PROPOGATE_EXCEPTIONS = True
+    PROPAGATE_EXCEPTIONS = True

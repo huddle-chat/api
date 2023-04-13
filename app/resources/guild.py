@@ -33,7 +33,8 @@ class Guilds(Resource):
             guilds = get_guilds_by_user_id(int(current_user_id))
             return {
                 "success": True,
-                "message": f"Successsfully fetched guilds for the user {current_user_id}",
+                "message": f"""Successsfully fetched guilds
+                for the user {current_user_id}""",
                 "data": guilds
             }
 
@@ -63,7 +64,7 @@ class Guilds(Resource):
 
             return {
                 "success": True,
-                "message": f"Successfully created guild.",
+                "message": "Successfully created guild.",
                 "data": new_guild
             }
 
@@ -86,11 +87,12 @@ class GuildsByUser(Resource):
             guilds = get_guilds_by_user_id(current_user_id)
             return {
                 "success": True,
-                "message": f"Successsfully fetched guilds for the user {current_user_id}",
+                "message": f"""Successsfully fetched guilds
+                for the user {current_user_id}""",
                 "data": guilds
             }
 
-        except Exception as e:
+        except Exception:
             code = 500
             message = "something went wrong"
             return {

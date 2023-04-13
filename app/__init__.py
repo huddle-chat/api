@@ -7,6 +7,7 @@ from app.resources.guild import GuildsByUser, GuildById, Guilds
 from app.resources.channel import ChannelsByGuild, ChannelById
 from app.resources.messages import MessagesByChannel
 from app.resources.user import UserById
+from flask_cors import CORS
 
 
 def create_app(config_class=Config):
@@ -47,5 +48,7 @@ def create_app(config_class=Config):
     api.init_app(app)
     jwt.init_app(app)
     mail.init_app(app)
+
+    CORS(app)
 
     return app

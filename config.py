@@ -21,3 +21,4 @@ class Config:
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     JWT_ALGORITHM = "HS256"
     PROPAGATE_EXCEPTIONS = True
+    ALLOW_CORS = True

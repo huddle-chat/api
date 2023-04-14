@@ -1,3 +1,4 @@
+from datetime import timedelta
 from flask_restful import Resource, reqparse
 from flask import make_response
 from app.rpc.users_rpc import register_user, get_user_for_login,\
@@ -5,10 +6,27 @@ from app.rpc.users_rpc import register_user, get_user_for_login,\
 from grpc import RpcError
 import grpc
 import bcrypt
+import redis
+from app.extensions import jwt
 from flask_jwt_extended import create_access_token,\
-    set_access_cookies, unset_access_cookies, jwt_required,\
-    get_jwt_identity
+    get_jwt, jwt_required,\
+    get_jwt_identity, JWTManager
 from app.common.email import send_verification_email
+import os
+
+ACCESS_EXPIRES = timedelta(hours=1)
+
+REDIS_HOST= os.getenv("REDIS_HOST")
+
+jwt_redis_blocklist = redis.StrictRedis(
+    host=REDIS_HOST, port=6379, db=0, decode_responses=True
+)
+
+@jwt.token_in_blocklist_loader
+def check_if_token_is_revoked(jwt_header, jwt_payload: dict):
+    jti = jwt_payload["jti"]
+    token_in_redis = jwt_redis_blocklist.get(jti)
+    return token_in_redis is not None
 
 auth_register_post_args = reqparse.RequestParser()
 auth_register_post_args.add_argument(
@@ -157,9 +175,10 @@ class AuthLogin(Resource):
                     'message': "Welcome back!",
                     'data': {
                         'user': user,
+                        'token': access_token
                     }
                 })
-                set_access_cookies(resp, access_token)
+
                 return resp
             else:
                 return {
@@ -183,14 +202,15 @@ class AuthLogin(Resource):
 
 
 class AuthLogout(Resource):
-    def get(self):
-        resp = make_response({
-            'success': True,
-            'message': "Successfully logged out!",
+    @jwt_required()
+    def delete(self):
+        jti = get_jwt()['jti']
+        jwt_redis_blocklist.set(jti, "", ex=ACCESS_EXPIRES)
+        return {
+            "success": True,
+            "message": "Successfully logged out.",
             "data": None
-        })
-        unset_access_cookies(resp)
-        return resp
+        }
 
 
 class AuthMe(Resource):
@@ -221,7 +241,7 @@ class AuthMe(Resource):
                     "data": None
                 })
             # Clear the malformed token, prompt user for login again
-            unset_access_cookies(resp)
+
             return resp, code
         # Some error that wasn't thrown by rpc
         except Exception as e:

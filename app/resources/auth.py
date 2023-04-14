@@ -10,23 +10,25 @@ import redis
 from app.extensions import jwt
 from flask_jwt_extended import create_access_token,\
     get_jwt, jwt_required,\
-    get_jwt_identity, JWTManager
+    get_jwt_identity
 from app.common.email import send_verification_email
 import os
 
 ACCESS_EXPIRES = timedelta(hours=1)
 
-REDIS_HOST= os.getenv("REDIS_HOST")
+REDIS_HOST = os.getenv("REDIS_HOST")
 
 jwt_redis_blocklist = redis.StrictRedis(
     host=REDIS_HOST, port=6379, db=0, decode_responses=True
 )
+
 
 @jwt.token_in_blocklist_loader
 def check_if_token_is_revoked(jwt_header, jwt_payload: dict):
     jti = jwt_payload["jti"]
     token_in_redis = jwt_redis_blocklist.get(jti)
     return token_in_redis is not None
+
 
 auth_register_post_args = reqparse.RequestParser()
 auth_register_post_args.add_argument(

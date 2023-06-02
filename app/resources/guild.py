@@ -29,7 +29,6 @@ class Guilds(Resource):
     def get(self):
         try:
             current_user_id = get_jwt_identity()
-
             guilds = get_guilds_by_user_id(int(current_user_id))
             return {
                 "success": True,
